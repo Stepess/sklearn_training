@@ -1,6 +1,8 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import preprocessing as prep
 
 class_name = 'Cultivars'
 
@@ -24,3 +26,6 @@ if __name__ == '__main__':
 
     # show_all_histograms(df)
     # show_all_boxplots(df)
+    scaler = prep.MinMaxScaler()
+    transform = scaler.fit_transform(np.asarray(df['Alcohol']).reshape(-1,1))
+    print(transform)
