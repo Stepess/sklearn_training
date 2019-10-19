@@ -39,6 +39,23 @@ def knn_fit(data_, n, scaler_):
     return knn
 
 
+def dtc_fit(data_):
+    x_train, x_test, y_train, y_test = train_test_split(data_, target, test_size=0.3)
+    dtc = DecisionTreeClassifier()
+    dtc.fit(x_train, y_train)
+    y_pred = dtc.predict(x_test)
+    score = metrics.accuracy_score(y_test, y_pred)
+    print('Accuracy: {0}'.format(score))
+
+    dot_data = StringIO()
+    export_graphviz(dtc, out_file=dot_data,
+                    filled=True, rounded=True,
+                    special_characters=True, feature_names=feature_cols, class_names=['0', '1', '2'])
+    graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
+    graph.write_png('wines.png')
+    Image(graph.create_png())
+
+
 if __name__ == '__main__':
     feature_cols = [
         'Alcohol',
@@ -68,17 +85,4 @@ if __name__ == '__main__':
     data = df[[x for x in df.columns if x != class_name]]
     target = df[class_name]
 
-    x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.3, random_state=42)
-    ctc = DecisionTreeClassifier()
-    ctc.fit(x_train, y_train)
-    y_pred = ctc.predict(x_test)
-    score = metrics.accuracy_score(y_test, y_pred)
-    print('Accuracy: {0}'.format(score))
-
-    dot_data = StringIO()
-    export_graphviz(ctc, out_file=dot_data,
-                    filled=True, rounded=True,
-                    special_characters=True, feature_names=feature_cols, class_names=['0', '1', '2'])
-    graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
-    graph.write_png('diabetes.png')
-    Image(graph.create_png())
+    dtc_fit(data)
