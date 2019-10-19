@@ -6,6 +6,11 @@ from sklearn import preprocessing as prep
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import export_graphviz
+from sklearn.externals.six import StringIO
+from IPython.display import Image
+import pydotplus
 
 class_name = 'Cultivars'
 
@@ -35,8 +40,27 @@ def knn_fit(data_, n, scaler_):
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('../dataset/wine.data')
-    # print(df.info())
+    feature_cols = [
+        'Alcohol',
+        'Malic_acid',
+        'Ash',
+        'Alcalinity_of_ash',
+        'Magnesium',
+        'Total_phenols',
+        'Flavanoids',
+        'Nonflavanoid_phenols',
+        'Proanthocyanins',
+        'Color_intensity',
+        'Hue',
+        'OD280/OD315_of_diluted_wines',
+        'Proline'
+    ]
+
+    cols = feature_cols.copy()
+    cols.insert(0, class_name)
+
+    df = pd.read_csv('../dataset/wine.data', header=None, names=cols)
+    print(df.info())
 
     # show_all_histograms(df)
     # show_all_boxplots(df)
@@ -44,4 +68,17 @@ if __name__ == '__main__':
     data = df[[x for x in df.columns if x != class_name]]
     target = df[class_name]
 
-    knn_fit(data, 6, scaler)
+    x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.3, random_state=42)
+    ctc = DecisionTreeClassifier()
+    ctc.fit(x_train, y_train)
+    y_pred = ctc.predict(x_test)
+    score = metrics.accuracy_score(y_test, y_pred)
+    print('Accuracy: {0}'.format(score))
+
+    dot_data = StringIO()
+    export_graphviz(ctc, out_file=dot_data,
+                    filled=True, rounded=True,
+                    special_characters=True, feature_names=feature_cols, class_names=['0', '1', '2'])
+    graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
+    graph.write_png('diabetes.png')
+    Image(graph.create_png())
