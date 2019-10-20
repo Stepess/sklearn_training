@@ -12,6 +12,9 @@ from sklearn.svm import SVC
 from sklearn.externals.six import StringIO
 from IPython.display import Image
 import pydotplus
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+
 
 class_name = 'Cultivars'
 
@@ -70,6 +73,27 @@ def svc_fit(data_, scaler_):
     y_pred = svc.predict(x_test)
     score = metrics.accuracy_score(y_test, y_pred)
     print('Accuracy: {0}'.format(score))
+    print(confusion_matrix(y_test, y_pred))
+    print(classification_report(y_test, y_pred))
+
+
+def find_the_most_important_features(rfc):
+    feature_imp = pd.Series(rfc.feature_importances_, index=feature_cols).sort_values(ascending=False)
+    print(feature_imp)
+    sns.barplot(x=feature_imp, y=feature_imp.index)
+    plt.xlabel('Feature Importance Score')
+    plt.ylabel('Features')
+    plt.title("Visualizing Important Features")
+    plt.legend()
+    plt.show()
+
+
+def rfc_fit(data_):
+    rfc = RandomForestClassifier(n_estimators=100)
+    x_train, x_test, y_train, y_test = train_test_split(data_, target, test_size=0.3)
+    rfc.fit(x_train, y_train)
+    y_pred = rfc.predict(x_test)
+    print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 
 
 if __name__ == '__main__':
@@ -101,4 +125,5 @@ if __name__ == '__main__':
     data = df[[x for x in df.columns if x != class_name]]
     target = df[class_name]
 
-    svc_fit(data, scaler)
+    rfc_fit(data)
+
