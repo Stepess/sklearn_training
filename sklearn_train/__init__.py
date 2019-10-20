@@ -14,6 +14,7 @@ from IPython.display import Image
 import pydotplus
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
 
 
 class_name = 'Cultivars'
@@ -96,6 +97,15 @@ def rfc_fit(data_):
     print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 
 
+def adaboost_fit(data_):
+    #svc = SVC(probability=True, kernel='linear')
+    ab = AdaBoostClassifier(n_estimators=50, learning_rate=1.0)
+    x_train, x_test, y_train, y_test = train_test_split(data_, target, test_size=0.3, random_state=42)
+    ab.fit(x_train, y_train)
+    y_pred = ab.predict(x_test)
+    print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
+
+
 if __name__ == '__main__':
     feature_cols = [
         'Alcohol',
@@ -125,5 +135,7 @@ if __name__ == '__main__':
     data = df[[x for x in df.columns if x != class_name]]
     target = df[class_name]
 
-    rfc_fit(data)
+    adaboost_fit(data)
+
+
 

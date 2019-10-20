@@ -14,3 +14,6 @@ rf
 https://www.datacamp.com/community/tutorials/random-forests-classifier-python
 https://medium.com/all-things-ai/in-depth-parameter-tuning-for-random-forest-d67bb7e920d
 
+adaboost
+https://www.datacamp.com/community/tutorials/adaboost-classifier-python
+https://www.youtube.com/watch?v=LsK-xG1cLYA
