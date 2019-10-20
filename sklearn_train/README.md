@@ -17,3 +17,7 @@ https://medium.com/all-things-ai/in-depth-parameter-tuning-for-random-forest-d67
 adaboost
 https://www.datacamp.com/community/tutorials/adaboost-classifier-python
 https://www.youtube.com/watch?v=LsK-xG1cLYA
+
+grad boost
+https://stackabuse.com/gradient-boosting-classifiers-in-python-with-scikit-learn/
+https://habr.com/ru/company/ods/blog/327250/
