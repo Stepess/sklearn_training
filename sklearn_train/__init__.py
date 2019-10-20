@@ -8,12 +8,17 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import export_graphviz
+from sklearn.svm import SVC
 from sklearn.externals.six import StringIO
 from IPython.display import Image
 import pydotplus
 
 class_name = 'Cultivars'
 
+# how to build heatmap for my dataset?
+# what is expectation by other plots?
+# SVC is it correct?
+# Data scaling what method to use?
 
 def show_all_histograms(data):
     for column in data.columns:
@@ -28,6 +33,7 @@ def show_all_boxplots(data: pd.DataFrame):
         plt.show()
 
 
+#n=6
 def knn_fit(data_, n, scaler_):
     data_ = scaler_.fit_transform(np.asarray(data_))
     x_train, x_test, y_train, y_test = train_test_split(data_, target, test_size=0.3)
@@ -54,6 +60,16 @@ def dtc_fit(data_):
     graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
     graph.write_png('wines.png')
     Image(graph.create_png())
+
+
+def svc_fit(data_, scaler_):
+    data_ = scaler_.fit_transform(np.asarray(data_))
+    svc = SVC()
+    x_train, x_test, y_train, y_test = train_test_split(data_, target, test_size=0.3)
+    svc.fit(x_train, y_train)
+    y_pred = svc.predict(x_test)
+    score = metrics.accuracy_score(y_test, y_pred)
+    print('Accuracy: {0}'.format(score))
 
 
 if __name__ == '__main__':
@@ -85,4 +101,4 @@ if __name__ == '__main__':
     data = df[[x for x in df.columns if x != class_name]]
     target = df[class_name]
 
-    dtc_fit(data)
+    svc_fit(data, scaler)
