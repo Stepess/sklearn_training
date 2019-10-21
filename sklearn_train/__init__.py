@@ -16,6 +16,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import GridSearchCV
 
 
 class_name = 'Cultivars'
@@ -135,7 +136,7 @@ if __name__ == '__main__':
     cols = feature_cols.copy()
     cols.insert(0, class_name)
 
-    df = pd.read_csv('../dataset/wine.data', header=None, names=cols)
+    df = pd.read_csv('http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data', header=None, names=cols)
     print(df.info())
 
     # show_all_histograms(df)
@@ -144,7 +145,26 @@ if __name__ == '__main__':
     data = df[[x for x in df.columns if x != class_name]]
     target = df[class_name]
 
-    gradboost_fit(data)
+    trasformed_data = scaler.fit_transform(data)
 
+    svc = SVC()
+    svc_param = {
+        'kernel': ['linear', 'rbf'],
+        'gamma': [0.1, 0.5, 1.0, 10.0],
+        'C': [0.1, 1, 10, 100, 1000]
+    }
+
+    cv = GridSearchCV(estimator=svc,
+                      param_grid=svc_param,
+                      scoring='f1_micro',
+                      n_jobs=-1,
+                      cv=5)
+
+    cv.fit(data, target)
+
+    print(cv)
+
+    print(cv.best_params_)
+    print(cv.best_score_)
 
 

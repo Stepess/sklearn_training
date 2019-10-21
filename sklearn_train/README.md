@@ -21,3 +21,11 @@ https://www.youtube.com/watch?v=LsK-xG1cLYA
 grad boost
 https://stackabuse.com/gradient-boosting-classifiers-in-python-with-scikit-learn/
 https://habr.com/ru/company/ods/blog/327250/
+
+grid search
+https://stackabuse.com/cross-validation-and-grid-search-for-model-selection-in-python/
+
+
+{'C': 0.1, 'gamma': 0.1, 'kernel': 'linear'}
+
+https://muthu.co/understanding-the-classification-report-in-sklearn/
