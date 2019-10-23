@@ -26,6 +26,19 @@ class_name = 'Cultivars'
 # SVC is it correct?
 # Data scaling what method to use?
 
+# Хитмап похожа на правду
+#           фичи лейбел
+#  фичи
+#  лейбел     корреляция
+#
+#  пару графиков на гистограму и ящичковая
+#  разобраться в датасете
+#  поиграться с параметрами
+#  сильная корреляция фич - плохо, можно выкинуть
+#  масштабировать лучше стандартным скейлером
+
+
+
 def show_all_histograms(data):
     for column in data.columns:
         sns.distplot(data[column], kde=False)
