@@ -29,3 +29,13 @@ https://stackabuse.com/cross-validation-and-grid-search-for-model-selection-in-p
 {'C': 0.1, 'gamma': 0.1, 'kernel': 'linear'}
 
 https://muthu.co/understanding-the-classification-report-in-sklearn/
+
+random forest param tuning
+https://towardsdatascience.com/hyperparameter-tuning-the-random-forest-in-python-using-scikit-learn-28d2aa77dd74
+
+{'max_depth': 80,
+ 'max_features': 'auto',
+ 'min_samples_split': 2,
+ 'n_estimators': 100}
+ 
+ {'learning_rate': 0.5, 'max_depth': 1, 'n_estimators': 42}
