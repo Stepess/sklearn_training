@@ -179,14 +179,3 @@ if __name__ == '__main__':
 
     print(cv.best_params_)
     print(cv.best_score_)
-
-    f1_scores = [
-        f1_score(y_test, knn.predict(x_test), average='macro'),
-        f1_score(y_test, dtc.predict(x_test), average='macro'),
-        f1_score(y_test, svc.predict(x_test), average='macro'),
-        f1_score(y_test, rfc.predict(x_test), average='macro'),
-        f1_score(y_test, abc.predict(x_test), average='macro'),
-        f1_score(y_test, gbc.predict(x_test), average='macro'),
-    ]
-
-
